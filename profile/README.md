@@ -29,7 +29,7 @@ Core defines a type without obliging you to populate it: a company of one has no
 Whatever the model says today. What has shipped, what is next, and what was deliberately deferred all live with the code, in the same commit as the thing they describe:
 [**roadmap →**](https://github.com/companygraph/meta-model#roadmap)
 
-[companygraph.io](https://companygraph.io) is the home page. Tooling and consulting come later and are separate products; the meta-model stays open source either way.
+[companygraph.io](https://companygraph.io) is the home page. The meta-model and its tooling are open source and stay that way; consulting is the one thing that costs money — [how it is billed →](https://companygraph.io/billing/)
 
 ---
 

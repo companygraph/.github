@@ -42,10 +42,11 @@ copies move in the same session or the exception is not worth keeping.
   implying one ships is not.
 - **Nothing identifying the companies the model was extracted from.** The structural claim —
   two independent instances converged on the same shape — stands without naming either.
-- **No service and no price.** "Tooling and consulting come later and are separate products"
-  is the licence's sentence and the most that may be said. Note that `companygraph.io` may not
-  say even that: the site forbids naming a service at all, so this page and that page are
-  deliberately not identical.
+- **No rate, and no hosted service.** The commercial model is consulting, billed time and
+  material, and it is stated once — on `companygraph.io/billing`. This page may link there;
+  it may not restate the terms, and it may never imply a hosted product, a licence fee or a
+  paid edition of the model. The meta-model and its tooling are open source forever, which
+  is the claim that makes the rest credible.
 
 ## Editing
 
