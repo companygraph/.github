@@ -13,7 +13,7 @@ It is not invented. It is the generalisation of a model that already works in tw
 | [**meta-model**](https://github.com/companygraph/meta-model) | The vocabulary: core types, one schema per type, the conventions that make a graph of Markdown files checkable, and a worked example |
 | [**companygraph.github.io**](https://github.com/companygraph/companygraph.github.io) | The site at [companygraph.io](https://companygraph.io) — landing page, the [talk](https://companygraph.io/talks/intro/), billing and privacy |
 
-**New here?** The [ten-minute introduction](https://companygraph.io/talks/intro/) is the
+**New here?** The [twelve-minute introduction](https://companygraph.io/talks/intro/) is the
 fastest way in: why a company's knowledge lives everywhere and nowhere, what two companies
 that never met both arrived at, and what is written today. DE · EN.
 
