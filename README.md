@@ -10,7 +10,7 @@ only purpose.
 | | Repository | What it holds |
 |---|---|---|
 | Model | [`meta-model`](https://github.com/companygraph/meta-model) | The vocabulary: core types, their schemas, the conventions, the design, and a worked example |
-| Landing page | [`companygraph.github.io`](https://github.com/companygraph/companygraph.github.io) | The org Pages site · [companygraph.io](https://companygraph.io) |
+| Site | [`companygraph.github.io`](https://github.com/companygraph/companygraph.github.io) | The org Pages site — landing page, talks, billing, privacy · [companygraph.io](https://companygraph.io) |
 | Organisation | `.github` | This repository — the profile above |
 
 ## Editing the profile

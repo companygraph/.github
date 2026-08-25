@@ -21,7 +21,7 @@ So the profile carries positioning and links, and nothing that has an owner else
 | The types, their schemas, the rules a graph must obey | `meta-model`'s `core/` and `CONVENTIONS.md` |
 | What was decided and what was rejected | `meta-model`'s `docs/superpowers/specs/` |
 | The pitch | companygraph.io |
-| The talk | `companygraph/talks`, the day it exists |
+| The talk | `companygraph.github.io`, at `talks/` — served at companygraph.io/talks/ |
 
 Before adding a sentence here, ask what would have to change if the answer changed. If the
 answer is "a file in another repository", link to it instead.
