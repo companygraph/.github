@@ -4,7 +4,7 @@
 
 A company's knowledge is scattered across wikis, decks, tickets and chat threads — each with its own structure, its own half-truth, and nothing that can check any of it. CompanyGraph is the structure that knowledge takes instead: one Markdown file per entity, in folders named for their type, with schemas saying what each type carries. People can read it, and agents can rely on it.
 
-It is not invented. It is the generalisation of a model that already works in two places that never knew about each other — a multi-person company, and a company of one. Both arrived at the same shape.
+It is not invented. It is the generalization of a model that already works in two places that never knew about each other — a multi-person company, and a company of one. Both arrived at the same shape.
 
 ## 🧭 Where to start
 
