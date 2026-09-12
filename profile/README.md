@@ -17,6 +17,37 @@ It is not invented. It is the generalization of a model that already works in tw
 fastest way in: why a company's knowledge lives everywhere and nowhere, what two companies
 that never met both arrived at, and what is written today. DE · EN.
 
+## 🧩 How it fits together
+
+One repository defines the vocabulary; everything else takes it. An instance is a folder of
+Markdown that vendors `core/` at a release and records which one, so a graph written last year
+still says what it meant. A site pins the repository it renders by commit, so a page and the
+model it was built from move together on purpose.
+
+```mermaid
+flowchart TB
+    subgraph cg["companygraph"]
+        MM["<b>meta-model</b><br/>the vocabulary: core types,<br/>one schema each, the conventions"]
+        SITE["<b>companygraph.io</b><br/>landing, model pages, the talk"]
+        TOOL["<b>tooling</b><br/>npx companygraph<br/><i>designed, not built</i>"]
+    end
+
+    subgraph rb["robertblust"]
+        MENTAL["<b>mental-model</b><br/>the reference instance:<br/>one company, described"]
+        BLUST["<b>blust.ch</b><br/>profile and model pages"]
+    end
+
+    MM -- "core vendored at a release" --> MENTAL
+    MM -- "pinned by commit · builds the model pages" --> SITE
+    MENTAL -- "pinned by commit · builds the model pages" --> BLUST
+    MM -- "the instance parser, by tag" --> BLUST
+    TOOL -. "will scaffold and check an instance" .-> MENTAL
+```
+
+The meta-model is the only thing anything else depends on, and it depends on nothing. That is
+what lets an instance live in a repository of its own, under its own license, on a machine that
+never runs any of this.
+
 ## 🧱 Principles
 
 - **One Markdown file per entity** — frontmatter for the fields, a Markdown body for the prose. A document holding many entities as headings has no name to reference any of them by
@@ -30,8 +61,35 @@ Core defines a type without obliging you to populate it: a company of one has no
 
 ## 🗺️ Where we are
 
-Whatever the model says today. What has shipped, what is next, and what was deliberately deferred all live with the code, in the same commit as the thing they describe:
-[**roadmap →**](https://github.com/companygraph/meta-model#roadmap)
+1. ✅ **The person cluster** — `profile`, `experience`, `skill`, `proficiency-level` and
+   `value`, the conventions that make them checkable, and a worked example. One person
+   described completely, rather than every type partially.
+2. ✅ **The reference instance** — a real company described in this vocabulary:
+   [`robertblust/mental-model`](https://github.com/robertblust/mental-model), a company of
+   one, laid out by hand as the tooling will lay one out. What it taught is §7 of
+   [its spec](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-26-reference-instance-design.md).
+3. **The rest of core** — `identity` and `vision` shipped in 0.4.1, which is what let an
+   instance name the company it describes and say where it is going, and `experience-kind`
+   in 0.6.0; the remaining types the design names are direction, organization, operation,
+   market, obligation and domain.
+4. **Packs** — the mechanism above, deliberately undesigned until a second kind of company
+   asks for one.
+5. **Tooling** — designed, not built:
+   [its design](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-25-companygraph-tooling-design.md).
+   A separate repository, `companygraph/tooling`, Node with no dependencies, run as
+   `npx companygraph` in the manner of [spec-kit](https://github.com/github/spec-kit):
+   `init` scaffolds an instance from a bundled or fetched release of this repository,
+   `add` writes an entity from its schema, `check` runs the mechanical part of the
+   conventions, `upgrade` brings a vendored core to a newer release — and it installs the
+   agent skills for validating an instance, adding to it, exporting it as a loadable skill and
+   producing the content of a surface. Its
+   half of the contract lives here: `core/manifest.json` naming a version and a shape, and
+   a tag on every release.
+6. **The validator** — deferred, and when it arrives it will not be one that parses these
+   Markdown schemas as its source of truth. The tooling's `check` is deliberately not it: it
+   reads the fixed shape and the H1s, never a description. The eight checks that are about an
+   instance rather than about this repository ship as `companygraph-meta-model/checks`, and they
+   read the schemas from the core your instance vendored, never from the core in this package.
 
 [companygraph.io](https://companygraph.io) is the home page. The meta-model and its tooling are open source and stay that way; consulting is the one thing that costs money — [how it is billed →](https://companygraph.io/billing/)
 

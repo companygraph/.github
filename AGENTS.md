@@ -29,16 +29,23 @@ shipped, because it restated a roadmap that lives in another repository. Nothing
 no CI in one repository can validate prose in another, and the profile is the page a
 first-time visitor reads before anything else.
 
-So the profile carries positioning and links, and nothing that has an owner elsewhere:
+The lesson is about restating, not about owning. Two facts a first-time visitor needs before
+they open any repository are owned here and linked from `meta-model`: what has shipped and what
+comes next, and which repository holds what and what each takes from the others. Everything else
+has an owner elsewhere and is linked, never repeated:
 
-| Fact | Owner — link to it |
+| Fact | Owner |
 |---|---|
+| What has shipped, what is next, what is deferred | **here**, `profile/README.md` — `meta-model`'s README links to it |
+| Which repository holds what, and what pins what | **here**, `profile/README.md` — the diagram |
 | What the model is, how to instantiate it, what a pack is | `meta-model`'s `README.md` |
-| Roadmap, status, what is deferred | `meta-model`'s `README.md#roadmap` |
 | The types, their schemas, the rules a graph must obey | `meta-model`'s `core/` and `CONVENTIONS.md` |
 | What was decided and what was rejected | `meta-model`'s `docs/superpowers/specs/` |
 | The pitch | companygraph.io |
 | The talk | `companygraph.github.io`, at `talks/` — served at companygraph.io/talks/ |
+
+**What is owned here is owned here alone.** A roadmap or a repository map copied back into a
+README is the same drift in the other direction, and just as invisible.
 
 Before adding a sentence here, ask what would have to change if the answer changed. If the
 answer is "a file in another repository", link to it instead.
