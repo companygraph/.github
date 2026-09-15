@@ -69,9 +69,10 @@ Core defines a type without obliging you to populate it: a company of one has no
    one, laid out by hand as the tooling will lay one out. What it taught is §7 of
    [its spec](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-26-reference-instance-design.md).
 3. **The rest of core** — `identity` and `vision` shipped in 0.4.1, which is what let an
-   instance name the company it describes and say where it is going, and `experience-kind`
-   in 0.6.0; the remaining types the design names are direction, organization, operation,
-   market, obligation and domain.
+   instance name the company it describes and say where it is going, `experience-kind` in
+   0.6.0, `surface` in 0.16.0, then direction's `strategic-objective` and `strategy` in
+   0.21.0 and organization's `role` in 0.23.0; still ahead are `kpi`, `brand-element`,
+   `group` and the whole of operation, market, obligation and domain.
 4. **Packs** — the mechanism above, deliberately undesigned until a second kind of company
    asks for one.
 5. **Tooling** — designed, not built:
@@ -87,7 +88,7 @@ Core defines a type without obliging you to populate it: a company of one has no
    a tag on every release.
 6. **The validator** — deferred, and when it arrives it will not be one that parses these
    Markdown schemas as its source of truth. The tooling's `check` is deliberately not it: it
-   reads the fixed shape and the H1s, never a description. The eight checks that are about an
+   reads the fixed shape and the H1s, never a description. The checks that are about an
    instance rather than about this repository ship as `companygraph-meta-model/checks`, and they
    read the schemas from the core your instance vendored, never from the core in this package.
 
