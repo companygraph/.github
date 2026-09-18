@@ -79,6 +79,12 @@ it directly, so check github.com/companygraph after pushing.
 
 Keep it short. It competes with the repository list directly beneath it.
 
+**A roadmap item's number is cited from other repositories**, so a new item is appended and no
+item is renumbered. `meta-model`'s README points at item 5 for the tooling, and its specs and
+plans cite items 2 and 3; renumbering to put a subject in the place it belongs breaks every one
+of those silently, because no check in this repository can see them. The order of the list is
+therefore the order things were written, not the order they shipped.
+
 ## Checks
 
 One job, required by the ruleset on `main`: `conventions`, called from robertblust/conventions

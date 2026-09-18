@@ -11,6 +11,7 @@ It is not invented. It is the generalization of a model that already works in tw
 | Repository | What it is |
 |---|---|
 | [**meta-model**](https://github.com/companygraph/meta-model) | The vocabulary: core types, one schema per type, the conventions that make a graph of Markdown files checkable, and a worked example |
+| [**mcp-server**](https://github.com/companygraph/mcp-server) | A read-only MCP server over any instance: an agent asks which types a company declares, what one entity says and what evidence a claim rests on, and every answer is what the model says at one commit |
 | [**companygraph.github.io**](https://github.com/companygraph/companygraph.github.io) | The site at [companygraph.io](https://companygraph.io) — landing page, the [talk](https://companygraph.io/talks/intro/), billing and privacy |
 
 **New here?** The [twelve-minute introduction](https://companygraph.io/talks/intro/) is the
@@ -29,18 +30,23 @@ flowchart TB
     subgraph cg["companygraph"]
         MM["<b>meta-model</b><br/>the vocabulary: core types,<br/>one schema each, the conventions"]
         SITE["<b>companygraph.io</b><br/>landing, model pages, the talk"]
+        MCP["<b>mcp-server</b><br/>read-only MCP<br/>over any instance"]
         TOOL["<b>tooling</b><br/>npx companygraph<br/><i>designed, not built</i>"]
     end
 
     subgraph rb["robertblust"]
         MENTAL["<b>mental-model</b><br/>the reference instance:<br/>one company, described"]
         BLUST["<b>blust.ch</b><br/>profile and model pages"]
+        MCPD["<b>mcp.blust.ch</b><br/>the server, deployed<br/>on the reference instance"]
     end
 
     MM -- "core vendored at a release" --> MENTAL
     MM -- "pinned by commit · builds the model pages" --> SITE
     MENTAL -- "pinned by commit · builds the model pages" --> BLUST
     MM -- "the instance parser, by tag" --> BLUST
+    MM -- "the instance parser, by tag" --> MCP
+    MCP -- "pinned by tag" --> MCPD
+    MENTAL -- "pinned by commit · parsed into a snapshot" --> MCPD
     TOOL -. "will scaffold and check an instance" .-> MENTAL
 ```
 
@@ -57,7 +63,7 @@ never runs any of this.
 - **Schemas are Markdown, enforced by agents** — not a stage on the way to JSON Schema
 - **Apache 2.0** — the meta-model is open source and stays that way
 
-Core defines a type without obliging you to populate it: a company of one has no `group`, and the type stays in core, unused. A **pack** is for vocabulary a kind of company would not have at all — [what a pack is →](https://github.com/companygraph/meta-model#packs)
+Core defines a type without obliging you to populate it: a company that does not group what its people have achieved writes no `achievement-kind`, and the type stays in core either way. A **pack** is for vocabulary a kind of company would not have at all — [what a pack is →](https://github.com/companygraph/meta-model#packs)
 
 ## 🗺️ Where we are
 
@@ -71,8 +77,9 @@ Core defines a type without obliging you to populate it: a company of one has no
 3. **The rest of core** — `identity` and `vision` shipped in 0.4.1, which is what let an
    instance name the company it describes and say where it is going, `experience-kind` in
    0.6.0, `surface` in 0.16.0, then direction's `strategic-objective` and `strategy` in
-   0.21.0 and organization's `role` in 0.23.0; still ahead are `kpi`, `brand-element`,
-   `group` and the whole of operation, market, obligation and domain.
+   0.21.0, organization's `role` in 0.23.0, operation's `process` and `phase` in 0.25.0 and
+   `achievement-kind` in 0.28.0; still ahead are `kpi`, `brand-element`, `group`, the `gate`
+   and `rule` that complete operation, and the whole of market, obligation and domain.
 4. **Packs** — the mechanism above, deliberately undesigned until a second kind of company
    asks for one.
 5. **Tooling** — designed, not built:
@@ -91,6 +98,15 @@ Core defines a type without obliging you to populate it: a company of one has no
    reads the fixed shape and the H1s, never a description. The checks that are about an
    instance rather than about this repository ship as `companygraph-meta-model/checks`, and they
    read the schemas from the core your instance vendored, never from the core in this package.
+7. ✅ **The MCP server** — [`companygraph/mcp-server`](https://github.com/companygraph/mcp-server),
+   the way an agent reaches a model without being handed the files. It asks which types a
+   company declares, what one entity says and what evidence a claim rests on, read-only, and
+   every answer is what the model says at one commit. It parses a snapshot with the meta-model's
+   own parser, so a new type in core arrives without a change to the server and it knows no
+   instance's names or facts. The reference instance runs it at
+   [mcp.blust.ch](https://mcp.blust.ch/mcp), published to the MCP Registry as
+   `ch.blust/mental-model`. It shipped before the tooling above it, which is why a model can be
+   read by an agent today and still has to be set up by hand.
 
 [companygraph.io](https://companygraph.io) is the home page. The meta-model and its tooling are open source and stay that way; consulting is the one thing that costs money — [how it is billed →](https://companygraph.io/billing/)
 
