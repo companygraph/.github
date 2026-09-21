@@ -13,6 +13,7 @@ It is not invented. It is the generalization of a model that already works in tw
 | [**meta-model**](https://github.com/companygraph/meta-model) | The vocabulary: core types, one schema per type, the conventions that make a graph of Markdown files checkable, and a worked example |
 | [**mental-model**](https://github.com/companygraph/mental-model) | CompanyGraph described in its own vocabulary — the second instance, and the one with no people in it |
 | [**mcp-server**](https://github.com/companygraph/mcp-server) | A read-only MCP server over any instance: an agent asks which types a company declares, what one entity says and what evidence a claim rests on, and every answer is what the model says at one commit |
+| [**mcp-companygraph-io**](https://github.com/companygraph/mcp-companygraph-io) | The MCP server running on CompanyGraph's own model, at [mcp.companygraph.io](https://mcp.companygraph.io/mcp), the address to give a client; every answer is what that model says at one pinned commit |
 | [**obsidian-plugin**](https://github.com/companygraph/obsidian-plugin) | An Obsidian plugin for any instance: the meta-model's checks while a file is edited, and completion for what its schemas declare |
 | [**companygraph.github.io**](https://github.com/companygraph/companygraph.github.io) | The site at [companygraph.io](https://companygraph.io) — landing page, the [talk](https://companygraph.io/talks/intro/), billing and privacy |
 
