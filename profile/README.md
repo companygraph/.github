@@ -53,7 +53,7 @@ The meta-model is the only thing anything else depends on, and it depends on not
 - **An entity is a file when it owns nothing, and a folder when it owns collections of its own** — one mechanism, not two
 - **The canonical name of an entity is its H1** — not a `name` field, not the filename, and no fallback chain between them
 - **Every reference is by canonical name, never by path** — moving a file breaks nothing, and renaming an entity breaks loudly rather than quietly
-- **Schemas are Markdown, enforced by agents** — not a stage on the way to JSON Schema
+- **Schemas are Markdown, read by agents and by the checker alike** — not a stage on the way to JSON Schema, and no second format kept for the checker
 - **Apache 2.0** — the meta-model is open source and stays that way
 
 Core defines a type without obliging you to populate it: a company that does not group what its people have achieved writes no `achievement-kind`, and the type stays in core either way. A **pack** is for vocabulary a kind of company would not have at all — [what a pack is →](https://github.com/companygraph/meta-model#packs)
@@ -86,11 +86,13 @@ Core defines a type without obliging you to populate it: a company that does not
    producing the content of a surface. Its
    half of the contract lives here: `core/manifest.json` naming a version and a shape, and
    a tag on every release.
-6. **The validator** — deferred, and when it arrives it will not be one that parses these
-   Markdown schemas as its source of truth. The tooling's `check` is deliberately not it: it
-   reads the fixed shape and the H1s, never a description. The checks that are about an
-   instance rather than about this repository ship as `companygraph-meta-model/checks`, and they
-   read the schemas from the core your instance vendored, never from the core in this package.
+6. ✅ **The checker** — the checks that are about an instance rather than about the meta-model
+   ship as `companygraph-meta-model/checks`, and an instance runs them through a reusable
+   workflow at the release its manifest names. They read the schemas from the core your
+   instance vendored, never from the core in the package, so the Markdown schemas are their
+   source of truth — safe because the meta-model's own suite holds every schema to its fixed
+   shape. What they cannot read, a schema's writing rules, stays with an agent. The tooling's
+   `check` will run these same checks.
 7. ✅ **The MCP server** — [`companygraph/mcp-server`](https://github.com/companygraph/mcp-server),
    the way an agent reaches a model without being handed the files. It asks which types a
    company declares, what one entity says and what evidence a claim rests on, read-only, and
