@@ -1,9 +1,6 @@
 # CompanyGraph — Organization
 
-The organization profile for **CompanyGraph**, the open-source meta-model for operating a
-company. GitHub renders [`profile/README.md`](profile/README.md) at
-[github.com/companygraph](https://github.com/companygraph) — that file is this repository's
-only purpose.
+The organization profile for **CompanyGraph**, the open-source meta-model for operating a company. GitHub renders [`profile/README.md`](profile/README.md) at [github.com/companygraph](https://github.com/companygraph) — that file is this repository's only purpose.
 
 ## The CompanyGraph repositories
 
@@ -15,9 +12,6 @@ only purpose.
 
 ## Editing the profile
 
-The profile links; it does not restate. Every fact it might state has an owner in another
-repository, and a copy here goes stale with nothing able to detect it — no CI in one
-repository can validate prose in another. The sibling organization's profile advertised
-"Core in development" while two slices had shipped, for exactly that reason.
+The profile links; it does not restate. Every fact it might state has an owner in another repository, and a copy here goes stale with nothing able to detect it — no CI in one repository can validate prose in another. The sibling organization's profile advertised "Core in development" while two slices had shipped, for exactly that reason.
 
 See [AGENTS.md](AGENTS.md) for where each fact lives.
