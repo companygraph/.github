@@ -10,9 +10,10 @@ It is not invented. It is the generalization of a model that already works in tw
 
 | Repository | What it is |
 | --- | --- |
-| [**meta-model**](https://github.com/companygraph/meta-model) | The vocabulary: core types, one schema per type, the conventions that make a graph of Markdown files checkable, and a worked example |
+| [**meta-model**](https://github.com/companygraph/meta-model) | The vocabulary: core types, one schema per type, the conventions that make a graph of Markdown files checkable, a worked example, and the `companygraph` command that makes an instance and keeps it current |
 | [**mental-model**](https://github.com/companygraph/mental-model) | CompanyGraph described in its own vocabulary — the second instance, and the one with no people in it |
 | [**mcp-server**](https://github.com/companygraph/mcp-server) | A read-only MCP server over any instance: an agent asks which types a company declares, what one entity says and what evidence a claim rests on, and every answer is what the model says at one commit |
+| [**mcp-companygraph-io**](https://github.com/companygraph/mcp-companygraph-io) | The MCP server running on CompanyGraph's own model, at [mcp.companygraph.io](https://mcp.companygraph.io/mcp), the address to give a client; every answer is what that model says at one pinned commit |
 | [**obsidian-plugin**](https://github.com/companygraph/obsidian-plugin) | An Obsidian plugin for any instance: the meta-model's checks while a file is edited, and completion for what its schemas declare |
 | [**companygraph.github.io**](https://github.com/companygraph/companygraph.github.io) | The site at [companygraph.io](https://companygraph.io) — landing page, the [talk](https://companygraph.io/talks/intro/), billing and privacy |
 
@@ -25,12 +26,12 @@ One repository defines the vocabulary; everything else takes it. An instance is 
 ```mermaid
 flowchart TB
     subgraph cg["companygraph"]
-        MM["<b>meta-model</b><br/>the vocabulary: core types,<br/>one schema each, the conventions"]
+        MM["<b>meta-model</b><br/>the vocabulary: core types,<br/>one schema each, the conventions,<br/>and the companygraph command"]
         SITE["<b>companygraph.io</b><br/>landing, model pages, the talk"]
         MCP["<b>mcp-server</b><br/>read-only MCP<br/>over any instance"]
         CGMM["<b>mental-model</b><br/>CompanyGraph, described<br/>in its own vocabulary"]
         PLUGIN["<b>obsidian-plugin</b><br/>the checks, while<br/>a file is edited"]
-        TOOL["<b>tooling</b><br/>npx companygraph<br/><i>designed, not built</i>"]
+        MCPCG["<b>mcp.companygraph.io</b><br/>the server, deployed<br/>on the second instance"]
     end
 
     subgraph rb["robertblust"]
@@ -48,7 +49,8 @@ flowchart TB
     MM -- "the instance parser, by tag" --> MCP
     MCP -- "pinned by tag" --> MCPD
     MENTAL -- "pinned by commit · parsed into a snapshot" --> MCPD
-    TOOL -. "will scaffold and check an instance" .-> MENTAL
+    MCP -- "pinned by tag" --> MCPCG
+    CGMM -- "pinned by commit · parsed into a snapshot" --> MCPCG
 ```
 
 The meta-model is the only thing anything else depends on, and it depends on nothing. That is what lets an instance live in a repository of its own, under its own license, on a machine that never runs any of this.
@@ -71,7 +73,7 @@ Core defines a type without obliging you to populate it: a company that does not
    described completely, rather than every type partially.
 2. ✅ **The reference instance** — a real company described in this vocabulary:
    [`robertblust/mental-model`](https://github.com/robertblust/mental-model), a company of
-   one, laid out by hand as the tooling will lay one out. What it taught is §7 of
+   one, laid out by hand before the tooling existed. What it taught is §7 of
    [its spec](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-26-reference-instance-design.md).
 3. **The rest of core** — `identity` and `vision` shipped in 0.4.1, which is what let an
    instance name the company it describes and say where it is going, `experience-kind` in
@@ -82,24 +84,22 @@ Core defines a type without obliging you to populate it: a company that does not
    `gate` and `rule` that complete operation, and the whole of market and obligation.
 4. **Packs** — the mechanism above, deliberately undesigned until a second kind of company
    asks for one.
-5. **Tooling** — designed, not built:
-   [its design](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-25-companygraph-tooling-design.md).
-   A separate repository, `companygraph/tooling`, Node with no dependencies, run as
-   `npx companygraph` in the manner of [spec-kit](https://github.com/github/spec-kit):
-   `init` scaffolds an instance from a bundled or fetched release of this repository,
-   `add` writes an entity from its schema, `check` runs the mechanical part of the
-   conventions, `upgrade` brings a vendored core to a newer release — and it installs the
-   agent skills for validating an instance, adding to it, exporting it as a loadable skill and
-   producing the content of a surface. Its
-   half of the contract lives here: `core/manifest.json` naming a version and a shape, and
-   a tag on every release.
+5. ✅ **Tooling** — the `companygraph` command, shipped inside the meta-model rather than in a
+   repository of its own, and run from a release tag as
+   `npx github:companygraph/meta-model#<tag> <command>`. `init` writes an instance that passes
+   the checks on its first day, `upgrade` moves its vendored core, its skills, its manifest and
+   its workflow's tag together, and `check` runs the mechanical checks. `init` also installs
+   three agent skills for Claude: validating an instance against its schemas' writing rules,
+   exporting it for an agent and for Gemini Notebook, and producing a surface the model records.
+   Writing a new entity from its schema, the `add` [the design](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-25-companygraph-tooling-design.md)
+   named, is not built.
 6. ✅ **The checker** — the checks that are about an instance rather than about the meta-model
    ship as `companygraph-meta-model/checks`, and an instance runs them through a reusable
    workflow at the release its manifest names. They read the schemas from the core your
    instance vendored, never from the core in the package, so the Markdown schemas are their
    source of truth — safe because the meta-model's own suite holds every schema to its fixed
    shape. What they cannot read, a schema's writing rules, stays with an agent. The tooling's
-   `check` will run these same checks.
+   `check` runs these same checks.
 7. ✅ **The MCP server** — [`companygraph/mcp-server`](https://github.com/companygraph/mcp-server),
    the way an agent reaches a model without being handed the files. It asks which types a
    company declares, what one entity says and what evidence a claim rests on, read-only, and
@@ -107,8 +107,9 @@ Core defines a type without obliging you to populate it: a company that does not
    own parser, so a new type in core arrives without a change to the server and it knows no
    instance's names or facts. The reference instance runs it at
    [mcp.blust.ch](https://mcp.blust.ch/mcp), published to the MCP Registry as
-   `ch.blust/mental-model`. It shipped before the tooling above it, which is why a model can be
-   read by an agent today and still has to be set up by hand.
+   `ch.blust/mental-model`, and the second instance runs it at
+   [mcp.companygraph.io](https://mcp.companygraph.io/mcp), published as
+   `io.companygraph/mental-model`.
 8. ✅ **The Obsidian plugin** — [`companygraph/obsidian-plugin`](https://github.com/companygraph/obsidian-plugin),
    the checks an instance runs, shown while a file is edited, with completion for what the
    schemas declare and a rename that follows an entity's name everywhere it is used. It bundles
