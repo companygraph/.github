@@ -11,7 +11,9 @@ It is not invented. It is the generalization of a model that already works in tw
 | Repository | What it is |
 | --- | --- |
 | [**meta-model**](https://github.com/companygraph/meta-model) | The vocabulary: core types, one schema per type, the conventions that make a graph of Markdown files checkable, and a worked example |
+| [**mental-model**](https://github.com/companygraph/mental-model) | CompanyGraph described in its own vocabulary — the second instance, and the one with no people in it |
 | [**mcp-server**](https://github.com/companygraph/mcp-server) | A read-only MCP server over any instance: an agent asks which types a company declares, what one entity says and what evidence a claim rests on, and every answer is what the model says at one commit |
+| [**obsidian-plugin**](https://github.com/companygraph/obsidian-plugin) | An Obsidian plugin for any instance: the meta-model's checks while a file is edited, and completion for what its schemas declare |
 | [**companygraph.github.io**](https://github.com/companygraph/companygraph.github.io) | The site at [companygraph.io](https://companygraph.io) — landing page, the [talk](https://companygraph.io/talks/intro/), billing and privacy |
 
 **New here?** The [twelve-minute introduction](https://companygraph.io/talks/intro/) is the fastest way in: why a company's knowledge lives everywhere and nowhere, what two companies that never met both arrived at, and what is written today. DE · EN.
@@ -26,6 +28,8 @@ flowchart TB
         MM["<b>meta-model</b><br/>the vocabulary: core types,<br/>one schema each, the conventions"]
         SITE["<b>companygraph.io</b><br/>landing, model pages, the talk"]
         MCP["<b>mcp-server</b><br/>read-only MCP<br/>over any instance"]
+        CGMM["<b>mental-model</b><br/>CompanyGraph, described<br/>in its own vocabulary"]
+        PLUGIN["<b>obsidian-plugin</b><br/>the checks, while<br/>a file is edited"]
         TOOL["<b>tooling</b><br/>npx companygraph<br/><i>designed, not built</i>"]
     end
 
@@ -36,6 +40,8 @@ flowchart TB
     end
 
     MM -- "core vendored at a release" --> MENTAL
+    MM -- "core vendored at a release" --> CGMM
+    MM -- "the parser and checks, by tag · bundled" --> PLUGIN
     MM -- "pinned by commit · builds the model pages" --> SITE
     MENTAL -- "pinned by commit · builds the model pages" --> BLUST
     MM -- "the instance parser, by tag" --> BLUST
@@ -70,9 +76,10 @@ Core defines a type without obliging you to populate it: a company that does not
 3. **The rest of core** — `identity` and `vision` shipped in 0.4.1, which is what let an
    instance name the company it describes and say where it is going, `experience-kind` in
    0.6.0, `surface` in 0.16.0, then direction's `strategic-objective` and `strategy` in
-   0.21.0, organization's `role` in 0.23.0, operation's `process` and `phase` in 0.25.0 and
-   `achievement-kind` in 0.28.0; still ahead are `kpi`, `brand-element`, `group`, the `gate`
-   and `rule` that complete operation, and the whole of market, obligation and domain.
+   0.21.0, organization's `role` in 0.23.0, operation's `process` and `phase` in 0.25.0,
+   `achievement-kind` in 0.28.0, operation's `track` in 0.33.0, and `product`, `feature`,
+   `domain` and `concept` in 0.37.0; still ahead are `kpi`, `brand-element`, `group`, the
+   `gate` and `rule` that complete operation, and the whole of market and obligation.
 4. **Packs** — the mechanism above, deliberately undesigned until a second kind of company
    asks for one.
 5. **Tooling** — designed, not built:
@@ -102,6 +109,16 @@ Core defines a type without obliging you to populate it: a company that does not
    [mcp.blust.ch](https://mcp.blust.ch/mcp), published to the MCP Registry as
    `ch.blust/mental-model`. It shipped before the tooling above it, which is why a model can be
    read by an agent today and still has to be set up by hand.
+8. ✅ **The Obsidian plugin** — [`companygraph/obsidian-plugin`](https://github.com/companygraph/obsidian-plugin),
+   the checks an instance runs, shown while a file is edited, with completion for what the
+   schemas declare and a rename that follows an entity's name everywhere it is used. It bundles
+   the meta-model's own checker, so a new rule in core reaches the editor without code of its
+   own, and it refuses a vault whose core is newer than the checker it carries rather than
+   check it against rules it does not know.
+9. ✅ **The second instance** — [`companygraph/mental-model`](https://github.com/companygraph/mental-model),
+   CompanyGraph described in the vocabulary it publishes. The reference instance showed the
+   vocabulary holds a real company; it could not show that it holds one that is not a person,
+   and this one has no people in it. It describes its own product, features and concepts too.
 
 [companygraph.io](https://companygraph.io) is the home page. The meta-model and its tooling are open source and stay that way; consulting is the one thing that costs money — [how it is billed →](https://companygraph.io/billing/)
 
