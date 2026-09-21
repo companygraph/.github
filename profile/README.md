@@ -30,6 +30,7 @@ flowchart TB
         MCP["<b>mcp-server</b><br/>read-only MCP<br/>over any instance"]
         CGMM["<b>mental-model</b><br/>CompanyGraph, described<br/>in its own vocabulary"]
         PLUGIN["<b>obsidian-plugin</b><br/>the checks, while<br/>a file is edited"]
+        MCPCG["<b>mcp.companygraph.io</b><br/>the server, deployed<br/>on the second instance"]
         TOOL["<b>tooling</b><br/>npx companygraph<br/><i>designed, not built</i>"]
     end
 
@@ -48,6 +49,8 @@ flowchart TB
     MM -- "the instance parser, by tag" --> MCP
     MCP -- "pinned by tag" --> MCPD
     MENTAL -- "pinned by commit · parsed into a snapshot" --> MCPD
+    MCP -- "pinned by tag" --> MCPCG
+    CGMM -- "pinned by commit · parsed into a snapshot" --> MCPCG
     TOOL -. "will scaffold and check an instance" .-> MENTAL
 ```
 
@@ -107,7 +110,9 @@ Core defines a type without obliging you to populate it: a company that does not
    own parser, so a new type in core arrives without a change to the server and it knows no
    instance's names or facts. The reference instance runs it at
    [mcp.blust.ch](https://mcp.blust.ch/mcp), published to the MCP Registry as
-   `ch.blust/mental-model`. It shipped before the tooling above it, which is why a model can be
+   `ch.blust/mental-model`, and the second instance runs it at
+   [mcp.companygraph.io](https://mcp.companygraph.io/mcp), published as
+   `io.companygraph/mental-model`. It shipped before the tooling above it, which is why a model can be
    read by an agent today and still has to be set up by hand.
 8. ✅ **The Obsidian plugin** — [`companygraph/obsidian-plugin`](https://github.com/companygraph/obsidian-plugin),
    the checks an instance runs, shown while a file is edited, with completion for what the
