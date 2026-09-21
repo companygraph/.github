@@ -14,16 +14,11 @@ It is not invented. It is the generalization of a model that already works in tw
 | [**mcp-server**](https://github.com/companygraph/mcp-server) | A read-only MCP server over any instance: an agent asks which types a company declares, what one entity says and what evidence a claim rests on, and every answer is what the model says at one commit |
 | [**companygraph.github.io**](https://github.com/companygraph/companygraph.github.io) | The site at [companygraph.io](https://companygraph.io) — landing page, the [talk](https://companygraph.io/talks/intro/), billing and privacy |
 
-**New here?** The [twelve-minute introduction](https://companygraph.io/talks/intro/) is the
-fastest way in: why a company's knowledge lives everywhere and nowhere, what two companies
-that never met both arrived at, and what is written today. DE · EN.
+**New here?** The [twelve-minute introduction](https://companygraph.io/talks/intro/) is the fastest way in: why a company's knowledge lives everywhere and nowhere, what two companies that never met both arrived at, and what is written today. DE · EN.
 
 ## 🧩 How it fits together
 
-One repository defines the vocabulary; everything else takes it. An instance is a folder of
-Markdown that vendors `core/` at a release and records which one, so a graph written last year
-still says what it meant. A site pins the repository it renders by commit, so a page and the
-model it was built from move together on purpose.
+One repository defines the vocabulary; everything else takes it. An instance is a folder of Markdown that vendors `core/` at a release and records which one, so a graph written last year still says what it meant. A site pins the repository it renders by commit, so a page and the model it was built from move together on purpose.
 
 ```mermaid
 flowchart TB
@@ -50,9 +45,7 @@ flowchart TB
     TOOL -. "will scaffold and check an instance" .-> MENTAL
 ```
 
-The meta-model is the only thing anything else depends on, and it depends on nothing. That is
-what lets an instance live in a repository of its own, under its own license, on a machine that
-never runs any of this.
+The meta-model is the only thing anything else depends on, and it depends on nothing. That is what lets an instance live in a repository of its own, under its own license, on a machine that never runs any of this.
 
 ## 🧱 Principles
 
