@@ -18,7 +18,7 @@ It is not invented. It is the generalization of a model that already works in tw
 | [**chat-server**](https://github.com/companygraph/chat-server) | A chat over any instance's MCP host: a visitor asks in their own words on a site, the service asks the host's tools and Claude writes the answer from what they said, naming the entity each claim rests on; it holds no model and pins no commit |
 | [**companygraph.github.io**](https://github.com/companygraph/companygraph.github.io) | The site at [companygraph.io](https://companygraph.io) — landing page, the [model](https://companygraph.io/model/) and its team, principles and surfaces, the [CLI](https://companygraph.io/cli/), the [talk](https://companygraph.io/talks/intro/), billing, privacy, and a chat that answers from the model |
 
-**New here?** The [twelve-minute introduction](https://companygraph.io/talks/intro/) is the fastest way in: why a company's knowledge lives everywhere and nowhere, what two companies that never met both arrived at, and what is written today. DE · EN.
+**New here?** The [seven-minute introduction](https://companygraph.io/talks/intro/) is the fastest way in: why a company's knowledge lives everywhere and nowhere, what two companies that never met both arrived at, and what is written today. DE · EN.
 
 ## 🧩 How it fits together
 
