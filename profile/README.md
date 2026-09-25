@@ -11,14 +11,14 @@ It is not invented. It is the generalization of a model that already works in tw
 | Repository | What it is |
 | --- | --- |
 | [**meta-model**](https://github.com/companygraph/meta-model) | The vocabulary: core types, one schema per type, the conventions that make a graph of Markdown files checkable, a worked example, and the `companygraph` command that makes an instance, keeps it current and installs the Obsidian plugin, from a menu or by name |
-| [**mental-model**](https://github.com/companygraph/mental-model) | CompanyGraph described in its own vocabulary — the second instance, and the one with no people in it |
+| [**mental-model**](https://github.com/companygraph/mental-model) | CompanyGraph described in its own vocabulary — the second instance, and the first with no person in it |
 | [**mcp-server**](https://github.com/companygraph/mcp-server) | A read-only MCP server over any instance: an agent asks which types a company declares, what one entity says and what evidence a claim rests on, and every answer is what the model says at one commit |
 | [**mcp-companygraph-io**](https://github.com/companygraph/mcp-companygraph-io) | The MCP server running on CompanyGraph's own model, at [mcp.companygraph.io](https://mcp.companygraph.io/mcp), the address to give a client; every answer is what that model says at one pinned commit |
 | [**obsidian-plugin**](https://github.com/companygraph/obsidian-plugin) | An Obsidian plugin for any instance: the meta-model's checks while a file is edited, and completion for what its schemas declare; the meta-model's command installs it |
 | [**chat-server**](https://github.com/companygraph/chat-server) | A chat over any instance's MCP host: a visitor asks in their own words on a site, the service asks the host's tools and Claude writes the answer from what they said, naming the entity each claim rests on; it holds no model and pins no commit |
-| [**companygraph.github.io**](https://github.com/companygraph/companygraph.github.io) | The site at [companygraph.io](https://companygraph.io) — landing page, the [CLI](https://companygraph.io/cli/), the [talk](https://companygraph.io/talks/intro/), billing and privacy |
+| [**companygraph.github.io**](https://github.com/companygraph/companygraph.github.io) | The site at [companygraph.io](https://companygraph.io) — landing page, the [model](https://companygraph.io/model/) and its team, principles and surfaces, the [CLI](https://companygraph.io/cli/), the [talk](https://companygraph.io/talks/intro/), billing, privacy, and a chat that answers from the model |
 
-**New here?** The [twelve-minute introduction](https://companygraph.io/talks/intro/) is the fastest way in: why a company's knowledge lives everywhere and nowhere, what two companies that never met both arrived at, and what is written today. DE · EN.
+**New here?** The [seven-minute introduction](https://companygraph.io/talks/intro/) is the fastest way in: why a company's knowledge lives everywhere and nowhere, what two companies that never met both arrived at, and what is written today. DE · EN.
 
 ## 🧩 How it fits together
 
@@ -36,6 +36,11 @@ flowchart TB
         CHAT["<b>chat-server</b><br/>a chat over any<br/>instance's MCP host"]
     end
 
+    subgraph gg["guestgraph"]
+        GGMM["<b>mental-model</b><br/>GuestGraph, described<br/>in this vocabulary"]
+        MCPGG["<b>mcp.guestgraph.io</b><br/>the server, deployed<br/>on the third instance"]
+    end
+
     subgraph rb["robertblust"]
         MENTAL["<b>mental-model</b><br/>the reference instance:<br/>one company, described"]
         BLUST["<b>blust.ch</b><br/>profile and model pages"]
@@ -47,6 +52,7 @@ flowchart TB
     MM -- "the parser and checks, by tag · bundled" --> PLUGIN
     MM -. "the command installs its newest release" .-> PLUGIN
     MM -- "pinned by commit · builds the model pages" --> SITE
+    CGMM -- "pinned by commit · builds the model pages" --> SITE
     MENTAL -- "pinned by commit · builds the model pages" --> BLUST
     MM -- "the instance parser, by tag" --> BLUST
     MM -- "the instance parser, by tag" --> MCP
@@ -56,6 +62,10 @@ flowchart TB
     CHAT -- "pinned by tag · deployed beside each server" --> MCPD
     CHAT -- "pinned by tag · deployed beside each server" --> MCPCG
     CGMM -- "pinned by commit · parsed into a snapshot" --> MCPCG
+    MM -- "core vendored at a release" --> GGMM
+    MCP -- "pinned by tag" --> MCPGG
+    CHAT -- "pinned by tag · deployed beside each server" --> MCPGG
+    GGMM -- "pinned by commit · parsed into a snapshot" --> MCPGG
 ```
 
 The dotted line is the one that is not a pin: the command fetches the plugin's newest release when it runs, because the plugin already pins the meta-model and a pin back would make each release wait on the other. The meta-model is the only thing anything else depends on, and it depends on nothing. That is what lets an instance live in a repository of its own, under its own license, on a machine that never runs any of this.
@@ -85,7 +95,7 @@ Core defines a type without obliging you to populate it: a company that does not
    0.6.0, `surface` in 0.16.0, then direction's `strategic-objective` and `strategy` in
    0.21.0, organization's `role` in 0.23.0, operation's `process` and `phase` in 0.25.0,
    `achievement-kind` in 0.28.0, operation's `track` in 0.33.0, and `product`, `feature`,
-   `domain` and `concept` in 0.37.0; still ahead are `kpi`, `brand-element`, `group`, the
+   `domain` and `concept` in 0.37.0, and `question` in 0.40.0; still ahead are `kpi`, `brand-element`, `group`, the
    `gate` and `rule` that complete operation, and the whole of market and obligation.
 4. **Packs** — the mechanism above, deliberately undesigned until a second kind of company
    asks for one.
@@ -119,7 +129,8 @@ Core defines a type without obliging you to populate it: a company that does not
    [mcp.blust.ch](https://mcp.blust.ch/mcp), published to the MCP Registry as
    `ch.blust/mental-model`, and the second instance runs it at
    [mcp.companygraph.io](https://mcp.companygraph.io/mcp), published as
-   `io.companygraph/mental-model`.
+   `io.companygraph/mental-model`, and GuestGraph's instance runs it at
+   [mcp.guestgraph.io](https://mcp.guestgraph.io/mcp), published as `io.guestgraph/mental-model`.
 8. ✅ **The Obsidian plugin** — [`companygraph/obsidian-plugin`](https://github.com/companygraph/obsidian-plugin),
    the checks an instance runs, shown while a file is edited, with completion for what the
    schemas declare and a rename that follows an entity's name everywhere it is used. It bundles
@@ -136,14 +147,21 @@ Core defines a type without obliging you to populate it: a company that does not
     a chat over any instance's MCP host, so a visitor who will not connect an agent can still
     ask the model a question in their own words. It is a client of the server above and holds
     no model of its own: it asks the host's tools and has Claude write the answer from what
-    they said, naming the entity each claim rests on and linking it. The two instances run it
-    beside their servers, at [chat.blust.ch](https://chat.blust.ch) and
-    [chat.companygraph.io](https://chat.companygraph.io), reached from the button at the foot
-    of every prose page of [blust.ch](https://blust.ch) and
-    [companygraph.io](https://companygraph.io). What it may spend is written down in the
+    they said, naming the entity each claim rests on and linking it. Each instance with a server
+    runs it beside the server, at [chat.blust.ch](https://chat.blust.ch),
+    [chat.companygraph.io](https://chat.companygraph.io) and
+    [chat.guestgraph.io](https://chat.guestgraph.io), reached from the button at the foot of
+    every prose page of [blust.ch](https://blust.ch), [companygraph.io](https://companygraph.io)
+    and [guestgraph.io](https://guestgraph.io). What it may spend is written down in the
     deployment, and every refusal is made before the model is asked.
+11. ✅ **The third instance** — [`guestgraph/mental-model`](https://github.com/guestgraph/mental-model),
+    GuestGraph described in this vocabulary. The two instances before it describe a company
+    of one and the project behind the vocabulary, and what each ships is about modeling; this
+    one describes a company whose product is about something else, guest identity in
+    hospitality, and it runs the server and the chat beside it at
+    [mcp.guestgraph.io](https://mcp.guestgraph.io/mcp).
 
-[companygraph.io](https://companygraph.io) is the home page. The meta-model and its tooling are open source and stay that way; consulting is the one thing that costs money — [how it is billed →](https://companygraph.io/billing/)
+[companygraph.io](https://companygraph.io) is the home page. The meta-model and its tooling are open source and stay that way; if anything ever costs money it is consulting time, and nothing is sold today — [how it would be billed →](https://companygraph.io/billing/)
 
 ---
 
