@@ -11,14 +11,14 @@ It is not invented. It is the generalization of a model that already works in tw
 | Repository | What it is |
 | --- | --- |
 | [**meta-model**](https://github.com/companygraph/meta-model) | The vocabulary: core types, one schema per type, the conventions that make a graph of Markdown files checkable, a worked example, and the `companygraph` command that makes an instance, keeps it current and installs the Obsidian plugin, from a menu or by name |
-| [**mental-model**](https://github.com/companygraph/mental-model) | CompanyGraph described in its own vocabulary — the second instance, and the first with no person in it |
+| [**mental-model**](https://github.com/companygraph/mental-model) | CompanyGraph described in its own vocabulary — the second instance, and the first whose subject is a project rather than a person |
 | [**mcp-server**](https://github.com/companygraph/mcp-server) | A read-only MCP server over any instance: an agent asks which types a company declares, what one entity says and what evidence a claim rests on, and it draws a part of the model as a diagram; every answer is what the model says at one commit |
 | [**mcp-companygraph-io**](https://github.com/companygraph/mcp-companygraph-io) | The MCP server running on CompanyGraph's own model, at [mcp.companygraph.io](https://mcp.companygraph.io/mcp), the address to give a client; every answer is what that model says at one pinned commit |
 | [**obsidian-plugin**](https://github.com/companygraph/obsidian-plugin) | An Obsidian plugin for any instance: the meta-model's checks while a file is edited, and completion for what its schemas declare; the meta-model's command installs it |
 | [**chat-server**](https://github.com/companygraph/chat-server) | A chat over any instance's MCP host: a visitor asks in their own words on a site, the service asks the host's tools and Claude writes the answer from what they said, naming the entity each claim rests on, answering a grouping as a table and a structure as the picture the host drew; it holds no model and pins no commit |
-| [**companygraph.github.io**](https://github.com/companygraph/companygraph.github.io) | The site at [companygraph.io](https://companygraph.io) — landing page with the vision and values, the [model](https://companygraph.io/model/) and its team, principles and surfaces, the [CLI](https://companygraph.io/cli/), the [talk](https://companygraph.io/talks/intro/), billing, privacy, and a chat that answers from the model |
+| [**companygraph.github.io**](https://github.com/companygraph/companygraph.github.io) | The site at [companygraph.io](https://companygraph.io) — landing page with the vision and values, the [model](https://companygraph.io/model/) and its team, principles and surfaces, the [CLI](https://companygraph.io/cli/), the [talks](https://companygraph.io/talks/), billing, privacy, and a chat that answers from the model |
 
-**New here?** The [seven-minute introduction](https://companygraph.io/talks/intro/) is the fastest way in: why a company's knowledge lives everywhere and nowhere, what two companies that never met both arrived at, and what is written today. DE · EN.
+**New here?** The [short introduction](https://companygraph.io/talks/intro/) is the fastest way in: why a company's knowledge lives everywhere and nowhere, what two companies that never met both arrived at, and what is written today. DE · EN.
 
 ## 🧩 How it fits together
 
@@ -27,48 +27,50 @@ One repository defines the vocabulary; everything else takes it. An instance is 
 ```mermaid
 flowchart TB
     subgraph cg["companygraph"]
-        MM["<b>meta-model</b><br/>the vocabulary: core types,<br/>one schema each, the conventions,<br/>and the companygraph command"]
-        SITE["<b>companygraph.io</b><br/>landing with the vision,<br/>the CLI, model pages, the talk"]
+        MM["<b>meta-model</b><br/>the vocabulary: core types,<br/>packs, one schema each,<br/>the conventions,<br/>and the companygraph command"]
+        SITE["<b>companygraph.io</b><br/>landing with the vision,<br/>the CLI, model pages, the talks"]
         MCP["<b>mcp-server</b><br/>read-only MCP<br/>over any instance,<br/>and its diagrams"]
         CGMM["<b>mental-model</b><br/>CompanyGraph, described<br/>in its own vocabulary"]
         PLUGIN["<b>obsidian-plugin</b><br/>the checks, while<br/>a file is edited"]
-        MCPCG["<b>mcp.companygraph.io</b><br/>the server, deployed<br/>on the second instance"]
+        MCPCG["<b>mcp.companygraph.io</b><br/>and chat.companygraph.io,<br/>on the second instance"]
         CHAT["<b>chat-server</b><br/>a chat over any<br/>instance's MCP host,<br/>in tables and pictures"]
     end
 
     subgraph gg["guestgraph"]
         GGMM["<b>mental-model</b><br/>GuestGraph, described<br/>in this vocabulary"]
-        MCPGG["<b>mcp.guestgraph.io</b><br/>the server, deployed<br/>on the third instance"]
+        GGIO["<b>guestgraph.io</b><br/>landing, model pages<br/>and the problems"]
+        MCPGG["<b>mcp.guestgraph.io</b><br/>and chat.guestgraph.io,<br/>on the third instance"]
     end
 
     subgraph rb["robertblust"]
         MENTAL["<b>mental-model</b><br/>the reference instance:<br/>one company, described"]
         BLUST["<b>blust.ch</b><br/>profile, model pages<br/>and the blog"]
-        MCPD["<b>mcp.blust.ch</b><br/>the server, deployed<br/>on the reference instance"]
+        MCPD["<b>mcp.blust.ch</b><br/>and chat.blust.ch,<br/>on the reference instance"]
+        DESIGN["<b>design</b><br/>tokens, page chrome<br/>and the page checks"]
     end
 
-    MM -- "core vendored at a release" --> MENTAL
-    MM -- "core vendored at a release" --> CGMM
+    MM -- "core vendored at a release" --> MENTAL & GGMM
+    MM -- "core and the software pack, at a release" --> CGMM
     MM -- "the parser and checks, by tag · bundled" --> PLUGIN
     MM -. "the command installs its newest release" .-> PLUGIN
+    MM -- "the instance parser, by tag" --> MCP & SITE & BLUST & GGIO
     MM -- "pinned by commit · builds the model pages" --> SITE
     CGMM -- "pinned by commit · builds the model pages" --> SITE
     MENTAL -- "pinned by commit · builds the model pages" --> BLUST
-    MM -- "the instance parser, by tag" --> BLUST
-    MM -- "the instance parser, by tag" --> MCP
-    MCP -- "pinned by tag" --> MCPD
+    GGMM -- "pinned by commit · builds the model pages" --> GGIO
+    MCP -- "pinned by tag" --> SITE & BLUST & GGIO
+    MCP -- "pinned by tag" --> MCPD & MCPCG & MCPGG
+    CHAT -- "pinned by tag · deployed beside each server" --> MCPD & MCPCG & MCPGG
     MENTAL -- "pinned by commit · parsed into a snapshot" --> MCPD
-    MCP -- "pinned by tag" --> MCPCG
-    CHAT -- "pinned by tag · deployed beside each server" --> MCPD
-    CHAT -- "pinned by tag · deployed beside each server" --> MCPCG
     CGMM -- "pinned by commit · parsed into a snapshot" --> MCPCG
-    MM -- "core vendored at a release" --> GGMM
-    MCP -- "pinned by tag" --> MCPGG
-    CHAT -- "pinned by tag · deployed beside each server" --> MCPGG
     GGMM -- "pinned by commit · parsed into a snapshot" --> MCPGG
+    DESIGN -- "pinned by tag" --> SITE & BLUST & GGIO & MCPD & MCPCG & MCPGG
+    BLUST -. "the chat button asks" .-> MCPD
+    SITE -. "the chat button asks" .-> MCPCG
+    GGIO -. "the chat button asks" .-> MCPGG
 ```
 
-The dotted line is the one that is not a pin: the command fetches the plugin's newest release when it runs, because the plugin already pins the meta-model and a pin back would make each release wait on the other. The meta-model is the only thing anything else depends on, and it depends on nothing. That is what lets an instance live in a repository of its own, under its own license, on a machine that never runs any of this.
+The dotted lines are the ones that are not pins. The command fetches the plugin's newest release when it runs, because the plugin already pins the meta-model and a pin back would make each release wait on the other, and a site's chat button sends a visitor's question to the chat beside its server. The meta-model is the only vocabulary anything else depends on, and it depends on nothing; design gives the sites and the deployments their look and their page checks, and holds no vocabulary. That is what lets an instance live in a repository of its own, under its own license, on a machine that never runs any of this.
 
 ## 🧱 Principles
 
@@ -90,29 +92,38 @@ Core defines a type without obliging you to populate it: a company that does not
    [`robertblust/mental-model`](https://github.com/robertblust/mental-model), a company of
    one, laid out by hand before the tooling existed. What it taught is §7 of
    [its spec](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-26-reference-instance-design.md).
-3. **The rest of core** — `identity` and `vision` shipped in 0.4.1, which is what let an
-   instance name the company it describes and say where it is going, `experience-kind` in
-   0.6.0, `surface` in 0.16.0, then direction's `strategic-objective` and `strategy` in
-   0.21.0, organization's `role` in 0.23.0, operation's `process` and `phase` in 0.25.0,
-   `achievement-kind` in 0.28.0, operation's `track` in 0.33.0, and `product`, `feature`,
-   `domain` and `concept` in 0.37.0, `question` in 0.40.0, `kpi` in 0.41.0,
-   `brand` in 0.42.0, `decision` with its `decision-kind` and `decision-status` in 0.43.0, and
-   `question-kind` in 0.45.0; still ahead are `group`, the `gate` and `rule` that complete
-   operation, and the whole of market and obligation.
-4. **Packs** — the mechanism above, deliberately undesigned until a second kind of company
-   asks for one.
+3. **The rest of core** — after the person cluster came `identity` and `vision`, which let an
+   instance name the company it describes and say where it is going; `source`, `identifier`
+   and `localization`; `experience-kind` and `achievement-kind`; `surface`; direction's
+   `strategic-objective`, `strategy` and `kpi`; organization's `role`; operation's `process`,
+   `phase` and `track`; `product`, `feature`, `domain` and `concept`; `question` and
+   `question-kind`; `brand`; `decision` with its `decision-kind` and `decision-status`; `rule`,
+   `risk` and `control`, with a KPI naming the controls it assesses; and `data-processor`,
+   `processing-activity` and `stored-item`, for what a privacy page and a record of processing
+   have to say. A gate stays a section of its phase, saying where failure leads, rather than a
+   type of its own. Still ahead are `group` and the whole of market and obligation.
+4. ✅ **Packs** — vocabulary only some kinds of company need at all, vendored beside core.
+   The first, `software`, brings domain-driven design to a company that builds software:
+   bounded contexts, the aggregates and concept designs inside them, domain events and feature
+   designs. An instance takes it with `init --pack software`, and the second instance does.
 5. ✅ **Tooling** — the `companygraph` command, shipped inside the meta-model rather than in a
    repository of its own, and run from a release tag as
    `npx github:companygraph/meta-model#<tag>`. Run with nothing after it at a terminal, it opens
-   a menu over everything it does and stays open until Quit, so making a model, checking it and
+   a menu over what it does and stays open until Quit, so making a model, checking it and
    putting the editor in front of it is one run; [companygraph.io/cli](https://companygraph.io/cli/)
    plays it. Each entry is also a command by name, for a script or a CI step: `init` writes an
    instance that passes the checks on its first day, `upgrade` moves its vendored core, its
    skills, its manifest and its workflow's tag together, `check` runs the mechanical checks,
    and `obsidian` installs the Obsidian plugin's newest release in a vault or updates it there.
+   `judge` asks a decision model whether each page keeps its schema's writing rules, advisory,
+   and only once the owner has agreed to what it sends. `form` holds a repository's Markdown to
+   one form, `adopt` gives a site or a service that holds no model the same form check, workflow
+   and seat hook, and `pins` reports which of a repository's pins are behind. `commits` refuses
+   a commit whose seat its phase does not list, and `seats` reads the history back by seat.
+   `id` prints a fresh id, and `ids` gives every page one that stays with it.
    `init` also installs agent skills for Claude: validating an instance against its schemas'
    writing rules, exporting it for an agent and for Gemini Notebook, producing a surface the
-   model records, building a profile from a folder of a person's documents, building an
+   model records, asking a decision model the writing rules once the owner consents, building a profile from a folder of a person's documents, building an
    instance from a company's web address, and recording the consent a source's content is
    used under.
    Writing a new entity from its schema, the `add` [the design](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-25-companygraph-tooling-design.md)
@@ -122,7 +133,8 @@ Core defines a type without obliging you to populate it: a company that does not
    workflow at the release its manifest names. They read the schemas from the core your
    instance vendored, never from the core in the package, so the Markdown schemas are their
    source of truth — safe because the meta-model's own suite holds every schema to its fixed
-   shape. What they cannot read, a schema's writing rules, stays with an agent. The tooling's
+   shape. What they cannot read, a schema's writing rules, `judge` asks of a decision model, advisory
+   and failing no check. The tooling's
    `check` runs these same checks.
 7. ✅ **The MCP server** — [`companygraph/mcp-server`](https://github.com/companygraph/mcp-server),
    the way an agent reaches a model without being handed the files. It asks which types a
@@ -145,8 +157,10 @@ Core defines a type without obliging you to populate it: a company that does not
    meta-model's command installs it.
 9. ✅ **The second instance** — [`companygraph/mental-model`](https://github.com/companygraph/mental-model),
    CompanyGraph described in the vocabulary it publishes. The reference instance showed the
-   vocabulary holds a real company; it could not show that it holds one that is not a person,
-   and this one has no people in it. It describes its own product, features and concepts too.
+   vocabulary holds a real company; it could not show that it holds one that is not a person.
+   This one describes a project, and the people and agents in it are the seats that do its work.
+   It describes its own product, features and concepts too, and how they are built, in the
+   software pack's bounded contexts.
 
 10. ✅ **The chat** — [`companygraph/chat-server`](https://github.com/companygraph/chat-server),
     a chat over any instance's MCP host, so a visitor who will not connect an agent can still
