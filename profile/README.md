@@ -92,7 +92,7 @@ Core defines a type without obliging you to populate it: a company that does not
    [`robertblust/mental-model`](https://github.com/robertblust/mental-model), a company of
    one, laid out by hand before the tooling existed. What it taught is §7 of
    [its spec](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-26-reference-instance-design.md).
-3. **The rest of core** — after the person cluster came `identity` and `vision`, which let an
+3. ✅ **The rest of core** — after the person cluster came `identity` and `vision`, which let an
    instance name the company it describes and say where it is going; `source`, `identifier`
    and `localization`; `experience-kind` and `achievement-kind`; `surface`; direction's
    `strategic-objective`, `strategy` and `kpi`; `seat`, the responsibility a process names
@@ -206,14 +206,7 @@ Core defines a type without obliging you to populate it: a company that does not
 
 ## 🔭 What comes next
 
-What follows is not built, and nothing beyond it is promised:
-
-1. **Market and obligation in core** — a company's customers, and what it is bound by:
-   terms, policies and agreements. [The first design](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-23-companygraph-design.md)
-   named them, as `customer` and `legal-document`; neither is designed yet.
-2. **`add` in the command** — writing a new entity from its schema, which
-   [the tooling design](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-25-companygraph-tooling-design.md)
-   named. The Obsidian plugin already does it; the command does not yet.
+What the companies adopting the model ask for decides which packs come next. Nothing beyond that is promised, and a request starts as an [issue on the meta-model](https://github.com/companygraph/meta-model/issues).
 
 [companygraph.io](https://companygraph.io) is the home page. The meta-model and its tooling are open source and stay that way; if anything ever costs money it is consulting time, and nothing is sold today — [how it would be billed →](https://companygraph.io/billing/)
 
