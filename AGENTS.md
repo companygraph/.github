@@ -46,10 +46,10 @@ Before adding a sentence here, ask what would have to change if the answer chang
   roadmap names a type when it ships, by name and never by number, and the sentence that
   counts them belongs in `meta-model`'s `README`, which ships in the same commit as the type
   it counts.
-- **A pack is named when it ships, and only by what kind of company it is for.** What a
-  pack is, and what each of its types carries, belongs to `meta-model`'s `README` and the
-  pack's own. This bullet forbade claiming a pack exists while the mechanism was undesigned;
-  three ship, and the page has said so since #39.
+- **A pack is named when it ships, by what kind of company it is for, with its types by
+  name and a link to its README and its talk.** What a pack is, and what each of its types
+  carries, belongs to `meta-model`'s `README` and the pack's own, so the page names a type
+  and never describes it, as it does for core.
 - **Nothing identifying the companies the model was extracted from.** The structural claim —
   two independent instances converged on the same shape — stands without naming either.
 - **No rate, and no hosted service.** The commercial model is consulting, billed time and
