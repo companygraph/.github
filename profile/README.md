@@ -10,7 +10,7 @@ It is not invented. It is the generalization of a model that already works in tw
 
 | Repository | What it is |
 | --- | --- |
-| [**meta-model**](https://github.com/companygraph/meta-model) | The vocabulary: core types and three packs, one schema per type, the conventions that make a graph of Markdown files checkable, a worked example, and the `companygraph` command that makes an instance, keeps it current and installs the Obsidian plugin, from a menu or by name |
+| [**meta-model**](https://github.com/companygraph/meta-model) | The vocabulary: core types and the packs a kind of company adds, one schema per type, the conventions that make a graph of Markdown files checkable, a worked example, and the `companygraph` command that makes an instance, keeps it current and installs the Obsidian plugin, from a menu or by name |
 | [**mental-model**](https://github.com/companygraph/mental-model) | CompanyGraph described in its own vocabulary — the second instance, and the first whose subject is a project rather than a person |
 | [**mcp-server**](https://github.com/companygraph/mcp-server) | A read-only MCP server over any instance: an agent asks which types a company declares, what one entity says and what evidence a claim rests on, and it draws a part of the model as a diagram; every answer is what the model says at one commit |
 | [**mcp-companygraph-io**](https://github.com/companygraph/mcp-companygraph-io) | The MCP server running on CompanyGraph's own model, at [mcp.companygraph.io](https://mcp.companygraph.io/mcp), the address to give a client; every answer is what that model says at one pinned commit |
@@ -18,7 +18,7 @@ It is not invented. It is the generalization of a model that already works in tw
 | [**chat-server**](https://github.com/companygraph/chat-server) | A chat over any instance's MCP host: a visitor asks in their own words on a site, the service asks the host's tools and Claude writes the answer from what they said, naming the entity each claim rests on, answering a grouping as a table and a structure as the picture the host drew; it holds no model and pins no commit |
 | [**companygraph.github.io**](https://github.com/companygraph/companygraph.github.io) | The site at [companygraph.io](https://companygraph.io) — landing page with the vision and values, the [model](https://companygraph.io/model/), its processes, principles and surfaces, the [CLI](https://companygraph.io/cli/), the [talks](https://companygraph.io/talks/), billing, privacy, and a chat that answers from the model |
 
-**New here?** The [short introduction](https://companygraph.io/talks/intro/) is the fastest way in: why a company's knowledge lives everywhere and nowhere, what two companies that never met both arrived at, and what is written today. DE · EN.
+**New here?** The [short introduction](https://companygraph.io/talks/intro/) is the fastest way in: why a company's knowledge lives everywhere and nowhere, what two companies that never met both arrived at, and what is written today. DE · EN. The [other talks](https://companygraph.io/talks/) go further: [one on core and the packs](https://companygraph.io/talks/core-and-packs/), one on each pack, and one each on the Obsidian plugin, on how far a model reaches and on what stays when the model changes.
 
 ## 🧩 How it fits together
 
@@ -50,7 +50,7 @@ flowchart TB
     end
 
     MM -- "core vendored at a release" --> MENTAL & GGMM
-    MM -- "core and the three packs, at a release" --> CGMM
+    MM -- "core and every pack, at a release" --> CGMM
     MM -- "the parser and checks, by tag · bundled" --> PLUGIN
     MM -. "the command installs its newest release" .-> PLUGIN
     MM -- "the instance parser, by tag" --> MCP & SITE & BLUST & GGIO
@@ -102,17 +102,27 @@ Core defines a type without obliging you to populate it: a company that does not
    `risk` and `control`, with a KPI naming the controls it assesses; and `data-processor`,
    `processing-activity` and `stored-item`, for what a privacy page and a record of processing
    have to say. A gate stays a section of its phase, saying where failure leads, rather than a
-   type of its own, and `group` went to the organization pack rather than into core. Still
-   ahead is the whole of market and obligation.
+   type of its own, and `group` went to the organization pack rather than into core. The talk
+   [One core, and the words your company adds](https://companygraph.io/talks/core-and-packs/)
+   shows what every company shares and where a pack begins.
 4. ✅ **Packs** — vocabulary only some kinds of company need at all, vendored beside core.
-   Three ship. `software` brings domain-driven design to a company that builds software:
-   bounded contexts, the aggregates and concept designs inside them, domain events and feature
-   designs. `organization` is for a company of more than one person: its units and the teams
-   drawn from them, the jobs its people are employed as, the two lines that run through them,
-   and which human directs which agent. `landscape` is for a company that runs systems: the
-   systems, what each runs on and holds, the services they provide and the data that passes
-   between them, aligned to ArchiMate® 4. An instance takes a pack with `init --pack <name>`,
-   and the second instance takes all three.
+   An instance takes a pack with `init --pack <name>`, and the second instance takes every
+   one. Each pack's README says what its types carry and what they draw on, and each pack has
+   a talk of its own:
+   - **software**, for a company that builds software, in domain-driven design's terms:
+     `bounded-context`, `aggregate`, `concept-design`, `domain-event` and `feature-design` —
+     [README](https://github.com/companygraph/meta-model/tree/main/packs/software) ·
+     [talk](https://companygraph.io/talks/software-pack/)
+   - **organization**, for a company of more than one person: `group`, `group-kind` and
+     `job` — [README](https://github.com/companygraph/meta-model/tree/main/packs/organization) ·
+     [talk](https://companygraph.io/talks/organization-pack/)
+   - **landscape**, for a company that runs systems, aligned to ArchiMate® 4: `system`,
+     `system-kind`, `service`, `data-object` and `environment` —
+     [README](https://github.com/companygraph/meta-model/tree/main/packs/landscape) ·
+     [talk](https://companygraph.io/talks/landscape-pack/)
+   - **requirements**, for a company that says what its products must do before it builds
+     them: `use-case` and `requirement` — [README](https://github.com/companygraph/meta-model/tree/main/packs/requirements) ·
+     [talk](https://companygraph.io/talks/requirements-pack/)
 5. ✅ **Tooling** — the `companygraph` command, shipped inside the meta-model rather than in a
    repository of its own, and run from a release tag as
    `npx github:companygraph/meta-model#<tag>`. Run with nothing after it at a terminal, it opens
@@ -135,8 +145,6 @@ Core defines a type without obliging you to populate it: a company that does not
    model records, asking a decision model the writing rules once the owner consents, building a profile from a folder of a person's documents, building an
    instance from a company's web address, and recording the consent a source's content is
    used under.
-   Writing a new entity from its schema, the `add` [the design](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-25-companygraph-tooling-design.md)
-   named, is not built.
 6. ✅ **The checker** — the checks that are about an instance rather than about the meta-model
    ship as `companygraph-meta-model/checks`, and an instance runs them through a reusable
    workflow at the release its manifest names. They read the schemas from the core your
@@ -170,9 +178,9 @@ Core defines a type without obliging you to populate it: a company that does not
    CompanyGraph described in the vocabulary it publishes. The reference instance showed the
    vocabulary holds a real company; it could not show that it holds one that is not a person.
    This one describes a project, and the people and agents in it are the seats that do its work.
-   It takes all three packs: how its software is designed, in the software pack's bounded
-   contexts; the systems it runs on and what they hold; and the one group its people and agents
-   sit in, with who directs whom. Its privacy page is built from its processors and stored
+   It takes every pack: how its software is designed, in the software pack's bounded contexts;
+   the systems it runs on and what they hold; the one group its people and agents sit in, with
+   who directs whom; and what its product is held to, as use cases and requirements. Its privacy page is built from its processors and stored
    items, and what the AI Act asks of a company that lets an agent answer for it is answered
    from its rules, risks and controls.
 
@@ -195,6 +203,17 @@ Core defines a type without obliging you to populate it: a company that does not
     one describes a company whose product is about something else, guest identity in
     hospitality, and it runs the server and the chat beside it at
     [mcp.guestgraph.io](https://mcp.guestgraph.io/mcp).
+
+## 🔭 What comes next
+
+What follows is not built, and nothing beyond it is promised:
+
+1. **Market and obligation in core** — a company's customers, and what it is bound by:
+   terms, policies and agreements. [The first design](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-23-companygraph-design.md)
+   named them, as `customer` and `legal-document`; neither is designed yet.
+2. **`add` in the command** — writing a new entity from its schema, which
+   [the tooling design](https://github.com/companygraph/meta-model/blob/main/docs/superpowers/specs/2026-08-25-companygraph-tooling-design.md)
+   named. The Obsidian plugin already does it; the command does not yet.
 
 [companygraph.io](https://companygraph.io) is the home page. The meta-model and its tooling are open source and stay that way; if anything ever costs money it is consulting time, and nothing is sold today — [how it would be billed →](https://companygraph.io/billing/)
 
