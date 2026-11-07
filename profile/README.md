@@ -14,6 +14,7 @@ It is not invented. It is the generalization of a model that already works in tw
 | [**mental-model**](https://github.com/companygraph/mental-model) | CompanyGraph described in its own vocabulary — the second instance, and the first whose subject is a project rather than a person |
 | [**mcp-server**](https://github.com/companygraph/mcp-server) | A read-only MCP server over any instance: an agent asks which types a company declares, what one entity says and what evidence a claim rests on, and it draws a part of the model as a diagram; every answer is what the model says at one commit |
 | [**mcp-companygraph-io**](https://github.com/companygraph/mcp-companygraph-io) | The MCP server running on CompanyGraph's own model, at [mcp.companygraph.io](https://mcp.companygraph.io/mcp), the address to give a client; every answer is what that model says at one pinned commit |
+| [**mcp-azure-companygraph-io**](https://github.com/companygraph/mcp-azure-companygraph-io) | The same server and chat on CompanyGraph's own model a second time, on Azure, at [mcp.azure.companygraph.io](https://mcp.azure.companygraph.io/mcp) and [chat.azure.companygraph.io](https://chat.azure.companygraph.io): the proof that both run on a second cloud, and the chat a reader of companygraph.io reaches with `/backend` |
 | [**obsidian-plugin**](https://github.com/companygraph/obsidian-plugin) | An Obsidian plugin for any instance: the meta-model's checks while a file is edited, and completion for what its schemas declare; the meta-model's command installs it |
 | [**chat-server**](https://github.com/companygraph/chat-server) | A chat over any instance's MCP host: a visitor asks in their own words on a site, the service asks the host's tools and Claude writes the answer from what they said, naming the entity each claim rests on, answering a grouping as a table and a structure as the picture the host drew; it holds no model and pins no commit |
 | [**companygraph.github.io**](https://github.com/companygraph/companygraph.github.io) | The site at [companygraph.io](https://companygraph.io) — landing page with the vision and values, the [model](https://companygraph.io/model/), its processes, principles and surfaces, the [CLI](https://companygraph.io/cli/), the [talks](https://companygraph.io/talks/), billing, privacy, and a chat that answers from the model |
@@ -33,6 +34,7 @@ flowchart TB
         CGMM["<b>mental-model</b><br/>CompanyGraph, described<br/>in its own vocabulary"]
         PLUGIN["<b>obsidian-plugin</b><br/>the checks, while<br/>a file is edited"]
         MCPCG["<b>mcp.companygraph.io</b><br/>and chat.companygraph.io,<br/>on the second instance"]
+        MCPAZ["<b>mcp.azure.companygraph.io</b><br/>and chat.azure.companygraph.io,<br/>on the second instance, on Azure"]
         CHAT["<b>chat-server</b><br/>a chat over any<br/>instance's MCP host,<br/>in tables and pictures"]
     end
 
@@ -59,14 +61,15 @@ flowchart TB
     MENTAL -- "pinned by commit · builds the model pages" --> BLUST
     GGMM -- "pinned by commit · builds the model pages" --> GGIO
     MCP -- "pinned by tag" --> SITE & BLUST & GGIO
-    MCP -- "pinned by tag" --> MCPD & MCPCG & MCPGG
-    CHAT -- "pinned by tag · deployed beside each server" --> MCPD & MCPCG & MCPGG
+    MCP -- "pinned by tag" --> MCPD & MCPCG & MCPAZ & MCPGG
+    CHAT -- "pinned by tag · deployed beside each server" --> MCPD & MCPCG & MCPAZ & MCPGG
     MENTAL -- "pinned by commit · parsed into a snapshot" --> MCPD
-    CGMM -- "pinned by commit · parsed into a snapshot" --> MCPCG
+    CGMM -- "pinned by commit · parsed into a snapshot" --> MCPCG & MCPAZ
     GGMM -- "pinned by commit · parsed into a snapshot" --> MCPGG
-    DESIGN -- "pinned by tag" --> SITE & BLUST & GGIO & MCPD & MCPCG & MCPGG
+    DESIGN -- "pinned by tag" --> SITE & BLUST & GGIO & MCPD & MCPCG & MCPAZ & MCPGG
     BLUST -. "the chat button asks" .-> MCPD
     SITE -. "the chat button asks" .-> MCPCG
+    SITE -. "the chat button asks, once /backend says Azure" .-> MCPAZ
     GGIO -. "the chat button asks" .-> MCPGG
 ```
 
@@ -166,7 +169,9 @@ Core defines a type without obliging you to populate it: a company that does not
    `ch.blust/mental-model`, and the second instance runs it at
    [mcp.companygraph.io](https://mcp.companygraph.io/mcp), published as
    `io.companygraph/mental-model`, and GuestGraph's instance runs it at
-   [mcp.guestgraph.io](https://mcp.guestgraph.io/mcp), published as `io.guestgraph/mental-model`.
+   [mcp.guestgraph.io](https://mcp.guestgraph.io/mcp), published as `io.guestgraph/mental-model`. The
+   second instance runs it a second time at [mcp.azure.companygraph.io](https://mcp.azure.companygraph.io/mcp),
+   on Azure, published nowhere.
 8. ✅ **The Obsidian plugin** — [`companygraph/obsidian-plugin`](https://github.com/companygraph/obsidian-plugin),
    the checks an instance runs, shown while a file is edited, with completion for what the
    schemas declare and a rename that follows an entity's name everywhere it is used. It bundles
@@ -191,7 +196,8 @@ Core defines a type without obliging you to populate it: a company that does not
     they said, naming the entity each claim rests on and linking it. Each instance with a server
     runs it beside the server, at [chat.blust.ch](https://chat.blust.ch),
     [chat.companygraph.io](https://chat.companygraph.io) and
-    [chat.guestgraph.io](https://chat.guestgraph.io), reached from the button at the foot of
+    [chat.guestgraph.io](https://chat.guestgraph.io), and once more at
+    [chat.azure.companygraph.io](https://chat.azure.companygraph.io), reached from the button at the foot of
     every prose page of [blust.ch](https://blust.ch), [companygraph.io](https://companygraph.io)
     and [guestgraph.io](https://guestgraph.io). What it may spend is written down in the
     deployment, and every refusal is made before the model is asked. It answers a grouping as
@@ -203,6 +209,16 @@ Core defines a type without obliging you to populate it: a company that does not
     one describes a company whose product is about something else, guest identity in
     hospitality, and it runs the server and the chat beside it at
     [mcp.guestgraph.io](https://mcp.guestgraph.io/mcp).
+
+12. ✅ **The second cloud** — the MCP server and the chat deploy to Azure as they deploy to
+    Google Cloud, from the same releases, by the Terraform modules and workflows each ships
+    under `deploy/azure/`: a Container App behind a free certificate, the chat reaching the
+    Claude API by a federated identity and no key, and the kept questions in a workspace of
+    their own. The second instance runs on both since Nov 7, 2026, from
+    [`companygraph/mcp-azure-companygraph-io`](https://github.com/companygraph/mcp-azure-companygraph-io),
+    and a reader of companygraph.io chooses which cloud answers with `/backend` in the chat.
+    The design is chat-server's
+    [The servers run on two clouds](https://github.com/companygraph/chat-server/blob/main/docs/superpowers/specs/2026-09-28-the-servers-run-on-two-clouds-design.md).
 
 ## 🔭 What comes next
 
