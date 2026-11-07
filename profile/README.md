@@ -13,7 +13,7 @@ It is not invented. It is the generalization of a model that already works in tw
 | [**meta-model**](https://github.com/companygraph/meta-model) | The vocabulary: core types and the packs a kind of company adds, one schema per type, the conventions that make a graph of Markdown files checkable, a worked example, and the `companygraph` command that makes an instance, keeps it current and installs the Obsidian plugin, from a menu or by name |
 | [**mental-model**](https://github.com/companygraph/mental-model) | CompanyGraph described in its own vocabulary — the second instance, and the first whose subject is a project rather than a person |
 | [**mcp-server**](https://github.com/companygraph/mcp-server) | A read-only MCP server over any instance: an agent asks which types a company declares, what one entity says and what evidence a claim rests on, and it draws a part of the model as a diagram; every answer is what the model says at one commit |
-| [**mcp-companygraph-io**](https://github.com/companygraph/mcp-companygraph-io) | The MCP server running on CompanyGraph's own model, at [mcp.companygraph.io](https://mcp.companygraph.io/mcp), the address to give a client; every answer is what that model says at one pinned commit |
+| [**mcp-companygraph-io**](https://github.com/companygraph/mcp-companygraph-io) | The MCP server and the chat on CompanyGraph's own model, on Google Cloud, at [mcp.companygraph.io](https://mcp.companygraph.io/mcp), the address to give a client, and [chat.companygraph.io](https://chat.companygraph.io): every answer is what that model says at one pinned commit, and the chat is the one a reader of companygraph.io reaches unless `/backend` says otherwise |
 | [**mcp-azure-companygraph-io**](https://github.com/companygraph/mcp-azure-companygraph-io) | The same server and chat on CompanyGraph's own model a second time, on Azure, at [mcp.azure.companygraph.io](https://mcp.azure.companygraph.io/mcp) and [chat.azure.companygraph.io](https://chat.azure.companygraph.io): the proof that both run on a second cloud, and the chat a reader of companygraph.io reaches with `/backend` |
 | [**obsidian-plugin**](https://github.com/companygraph/obsidian-plugin) | An Obsidian plugin for any instance: the meta-model's checks while a file is edited, and completion for what its schemas declare; the meta-model's command installs it |
 | [**chat-server**](https://github.com/companygraph/chat-server) | A chat over any instance's MCP host: a visitor asks in their own words on a site, the service asks the host's tools and Claude writes the answer from what they said, naming the entity each claim rests on, answering a grouping as a table and a structure as the picture the host drew; it holds no model and pins no commit |
@@ -33,7 +33,7 @@ flowchart TB
         MCP["<b>mcp-server</b><br/>read-only MCP<br/>over any instance,<br/>and its diagrams"]
         CGMM["<b>mental-model</b><br/>CompanyGraph, described<br/>in its own vocabulary"]
         PLUGIN["<b>obsidian-plugin</b><br/>the checks, while<br/>a file is edited"]
-        MCPCG["<b>mcp.companygraph.io</b><br/>and chat.companygraph.io,<br/>on the second instance"]
+        MCPCG["<b>mcp.companygraph.io</b><br/>and chat.companygraph.io,<br/>on the second instance, on Google Cloud"]
         MCPAZ["<b>mcp.azure.companygraph.io</b><br/>and chat.azure.companygraph.io,<br/>on the second instance, on Azure"]
         CHAT["<b>chat-server</b><br/>a chat over any<br/>instance's MCP host,<br/>in tables and pictures"]
     end
