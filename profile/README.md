@@ -51,11 +51,15 @@ flowchart TB
         DESIGN["<b>design</b><br/>tokens, page chrome<br/>and the page checks"]
     end
 
+    NPM["<b>npm</b><br/>@companygraph/meta-model,<br/>mcp-server and chat-server"]
+
     MM -- "core vendored at a release" --> MENTAL & GGMM
     MM -- "core and every pack, at a release" --> CGMM
     MM -- "the parser and checks, by tag · bundled" --> PLUGIN
     MM -. "the command installs its newest release" .-> PLUGIN
-    MM -- "the instance parser, by tag" --> MCP & SITE & BLUST & GGIO
+    MM -- "the instance parser, by tag" --> SITE & BLUST & GGIO
+    MM & MCP & CHAT -- "published by each release, from its tag" --> NPM
+    NPM -- "the instance parser, at a version" --> MCP
     MM -- "pinned by commit · builds the model pages" --> SITE
     CGMM -- "pinned by commit · builds the model pages" --> SITE
     MENTAL -- "pinned by commit · builds the model pages" --> BLUST
@@ -73,7 +77,7 @@ flowchart TB
     GGIO -. "the chat button asks" .-> MCPGG
 ```
 
-The dotted lines are the ones that are not pins. The command fetches the plugin's newest release when it runs, because the plugin already pins the meta-model and a pin back would make each release wait on the other, and a site's chat button sends a visitor's question to the chat beside its server. The meta-model is the only vocabulary anything else depends on, and it depends on nothing; design gives the sites and the deployments their look and their page checks, and holds no vocabulary. That is what lets an instance live in a repository of its own, under its own license, on a machine that never runs any of this.
+The meta-model, the server and the chat are also published to npm by their releases, from the tag and from nothing else, so a company whose package manager takes nothing from git takes them by version; the server takes the parser from there for the same reason. The dotted lines are the ones that are not pins. The command fetches the plugin's newest release when it runs, because the plugin already pins the meta-model and a pin back would make each release wait on the other, and a site's chat button sends a visitor's question to the chat beside its server. The meta-model is the only vocabulary anything else depends on, and it depends on nothing; design gives the sites and the deployments their look and their page checks, and holds no vocabulary. That is what lets an instance live in a repository of its own, under its own license, on a machine that never runs any of this.
 
 ## 🧱 Principles
 
@@ -127,8 +131,8 @@ Core defines a type without obliging you to populate it: a company that does not
      them: `use-case` and `requirement` — [README](https://github.com/companygraph/meta-model/tree/main/packs/requirements) ·
      [talk](https://companygraph.io/talks/requirements-pack/)
 5. ✅ **Tooling** — the `companygraph` command, shipped inside the meta-model rather than in a
-   repository of its own, and run from a release tag as
-   `npx github:companygraph/meta-model#<tag>`. Run with nothing after it at a terminal, it opens
+   repository of its own, and run from npm as `npx @companygraph/meta-model@latest`, or from a
+   release tag as `npx github:companygraph/meta-model#<tag>`. Run with nothing after it at a terminal, it opens
    a menu over what it does and stays open until Quit, so making a model, checking it and
    putting the editor in front of it is one run; [companygraph.io/cli](https://companygraph.io/cli/)
    plays it. Each entry is also a command by name, for a script or a CI step: `init` writes an
